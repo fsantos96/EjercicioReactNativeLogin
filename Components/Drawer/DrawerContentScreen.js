@@ -5,9 +5,12 @@ import { Icon } from 'react-native-elements';
 import { Label, Text } from 'native-base';
 
 export class DrawerContentScreen extends Component {
-
-    handlerLogout(){
-        console.log("Logout");
+    constructor(props) {
+        super(props);
+    }
+    handlerLogout = () =>{
+        console.log("Logout1");
+        this.props.onLogoutPress();
     }
 
     render(){

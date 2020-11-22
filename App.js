@@ -23,11 +23,10 @@ export default class App extends Component {
       this.setState({ isLogin: true });
     } else {
         token = await loginService.signInWithGoogleAsync();
-        console.log(token);
         if(token && (token.error || token.cancelled)) {
             this.setState({ error: true});
         } else {
-            //await storageService.setItem("accessToken", token);
+            await storageService.setItem("accessToken", token);
             this.setState({ isLogin: true });
         }
     }
@@ -35,12 +34,18 @@ export default class App extends Component {
     this.setState({ isReady: true });
   }
 
+  handlerLogout(){
+    this.setState({ isLogin: false });
+    console.log("Logout3");
+    storageService.removeItem("accessToken");
+}
+
   render(){
     
     if(this.state.isLogin) {
        return (
          <NavigationContainer>
-           <DrawerCustomNavigator/>
+           <DrawerCustomNavigator onLogout={this.handlerLogout}/>
         </NavigationContainer>
       );
     }

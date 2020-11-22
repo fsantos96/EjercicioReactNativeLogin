@@ -14,13 +14,19 @@ export class DrawerCustomNavigator extends Component {
         super(props);
     }
 
+    handlerLogout = () =>{
+        // no me deja usar this.props
+        console.log("Logout2");
+        this.props.onLogout();
+    }
+
     render(){
         return(
             
             <Drawer.Navigator 
                 initialRouteName="Home"
                 headerMode={'none'}
-                drawerContent={props => <DrawerContentScreen {...props}/>}
+                drawerContent={props => <DrawerContentScreen  onLogoutPress={this.handlerLogout} />}
             >
                 <Drawer.Screen name="Home"  component={StackNavigator } />
             </Drawer.Navigator>
