@@ -5,7 +5,9 @@ import { NavigationContainer } from '@react-navigation/native';
 import {DrawerCustomNavigator} from './Navigators/DrawerCustomNavigator';
 import * as loginService from './Services/loginService';
 import * as storageService from './Services/storageService';
-import { Container, Content, Text } from 'native-base';
+import * as Font from 'expo-font';
+import { Ionicons } from '@expo/vector-icons';
+import { Container, Content, Text, Button } from 'native-base';
 
 export default class App extends Component {
   constructor(props) {
@@ -16,7 +18,23 @@ export default class App extends Component {
       isReady: false
     };
   }
-  async componentDidMount() {  
+
+  handlerLogout = () => {
+    this.setState({ isLogin: false });
+    console.log("Logout3");
+    storageService.removeItem("accessToken");
+  }
+
+  async componentDidMount() {
+    await Font.loadAsync({
+      Roboto: require('native-base/Fonts/Roboto.ttf'),
+      Roboto_medium: require('native-base/Fonts/Roboto_medium.ttf'),
+      ...Ionicons.font,
+    });
+    this.setState({ isReady: true });
+  }
+
+  handlerPressButton = async () => {
     var token = await storageService.getItem("accessToken");
 
     if(token) {
@@ -34,14 +52,11 @@ export default class App extends Component {
     this.setState({ isReady: true });
   }
 
-  handlerLogout(){
-    this.setState({ isLogin: false });
-    console.log("Logout3");
-    storageService.removeItem("accessToken");
-}
-
   render(){
-    
+    if (!this.state.isReady) {
+      return <AppLoading />;
+    }
+
     if(this.state.isLogin) {
        return (
          <NavigationContainer>
@@ -55,6 +70,17 @@ export default class App extends Component {
         <Container>
           <Content contentContainerStyle={{flexGrow : 1, justifyContent : 'center', alignItems: 'center'}}>              
             <Text>Ocurrio un error al intentar iniciar sesion</Text>
+          </Content>
+        </Container>
+      );
+    }
+
+    if(!this.state.isLogin) {
+      return (
+        <Container>
+          <Content contentContainerStyle={{width:"100%",flexGrow: 1, justifyContent : 'center', alignItems: 'center'}}>
+          <Text> Bienvenido a Cocktail!</Text>         
+          <Button full style={{marginTop:40,position: "relative", textAlign : 'center',  alignItems: 'center'}} onPress={this.handlerPressButton} primary><Text> Entrar </Text></Button>
           </Content>
         </Container>
       );
