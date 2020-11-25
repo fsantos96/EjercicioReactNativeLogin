@@ -9,7 +9,6 @@ export class DrawerContentScreen extends Component {
         super(props);
     }
     handlerLogout = () =>{
-        console.log("Logout1");
         this.props.onLogoutPress();
     }
 

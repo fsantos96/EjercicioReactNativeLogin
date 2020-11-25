@@ -21,7 +21,6 @@ export default class App extends Component {
 
   handlerLogout = () => {
     this.setState({ isLogin: false });
-    console.log("Logout3");
     storageService.removeItem("accessToken");
   }
 

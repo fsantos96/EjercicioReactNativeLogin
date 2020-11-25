@@ -16,7 +16,6 @@ export class DrawerCustomNavigator extends Component {
 
     handlerLogout = () =>{
         // no me deja usar this.props
-        console.log("Logout2");
         this.props.onLogout();
     }
 
